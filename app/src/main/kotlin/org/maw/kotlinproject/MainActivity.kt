@@ -15,35 +15,39 @@ import retrofit.client.Response
 import java.util.ArrayList
 
 
-public class MainActivity : Activity() {
+public class MainActivity : Activity(), PageLoader{
 
     val mCharacterAdapter = CharacterAdapter(ArrayList<Character>())
 
+    val listener = object : retrofit.Callback<Result> {
+        override fun success(t: Result?, response: Response?) {
+            mCharacterAdapter.getList().addAll(t?.data?.results!!)
+            mCharacterAdapter.notifyDataSetChanged()
+            progressBar.setVisibility(View.GONE)
+        }
+
+        override fun failure(error: RetrofitError?) {
+            //TODO
+            progressBar.setVisibility(View.GONE)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        super<Activity>.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         recyclerview.setLayoutManager(LinearLayoutManager(this))
         recyclerview.setAdapter(mCharacterAdapter)
         recyclerview.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+        recyclerview.setOnScrollListener(ScrollListener(this))
 
+        loadPage()
+    }
+
+    override fun loadPage() {
         val characterFetcher = CharacterFetcher()
 
-        val listener = object : retrofit.Callback<Result> {
-            override fun success(t: Result?, response: Response?) {
-                mCharacterAdapter.getList().addAll(t?.data?.results!!)
-                mCharacterAdapter.notifyDataSetChanged()
-                progressBar.setVisibility(View.GONE)
-            }
-
-            override fun failure(error: RetrofitError?) {
-                //TODO
-                progressBar.setVisibility(View.GONE)
-            }
-
-        }
-
-        characterFetcher.fetchAllCharacters(listener)
+        characterFetcher.fetchAllCharacters(mCharacterAdapter.getItemCount().toString(), listener)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -63,6 +67,6 @@ public class MainActivity : Activity() {
             return true
         }
 
-        return super.onOptionsItemSelected(item)
+        return super<Activity>.onOptionsItemSelected(item)
     }
 }
