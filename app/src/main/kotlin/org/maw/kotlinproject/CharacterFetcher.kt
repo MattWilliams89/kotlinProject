@@ -23,11 +23,6 @@ public class CharacterFetcher {
         val characterFetcher = restAdapter.create<CharacterList>(javaClass<CharacterList>())
 
         // Fetch and print a list of the contributors to this library.
-        characterFetcher.characters(RequestParameters().signRequestURL(), listener)
-    }
-
-    companion object {
-
-        public val BASE_URL: String = "http://gateway.marvel.com/"
+        characterFetcher.characters(getRequestParameters(), listener)
     }
 }

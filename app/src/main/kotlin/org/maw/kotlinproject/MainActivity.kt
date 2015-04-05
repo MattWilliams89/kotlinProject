@@ -38,7 +38,6 @@ public class MainActivity : Activity() {
 
             override fun failure(error: RetrofitError?) {
                 //TODO
-                System.console().printf(error?.getCause().toString())
                 progressBar.setVisibility(View.GONE)
             }
 
