@@ -4,12 +4,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import org.maw.kotlinproject.Models.Displayable
 import org.maw.kotlinproject.Models.LoadingItem
 import org.maw.kotlinproject.Models.Character
 import org.maw.kotlinproject.R
+import org.maw.kotlinproject.kotterknife.bindView
 
 public class CharacterAdapter(characterList :MutableList<Displayable>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -45,6 +47,7 @@ public class CharacterAdapter(characterList :MutableList<Displayable>) : Recycle
             val character = mCharacterList.get(index) as Character
             characterHolder.nameView.setText(character.name)
             characterHolder.descriptionView.setText(character.description)
+            characterHolder.selectableView.setOnClickListener {  }
         }
         else if (holder is LoadingHolder){
             val loadingHolder = holder
@@ -57,11 +60,12 @@ public class CharacterAdapter(characterList :MutableList<Displayable>) : Recycle
     }
 
     class CharacterHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nameView = itemView.findViewById(R.id.char_name) as TextView
-        val descriptionView = itemView.findViewById(R.id.char_description) as TextView
+        val nameView : TextView by bindView(R.id.char_name)
+        val descriptionView : TextView by bindView(R.id.char_description)
+        val selectableView : LinearLayout by bindView(R.id.character_item_view)
     }
 
     class LoadingHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val progressBar = itemView.findViewById(R.id.loading) as ProgressBar
+        val progressBar : ProgressBar by bindView(R.id.loading)
     }
 }
