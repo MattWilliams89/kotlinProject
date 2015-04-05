@@ -13,7 +13,5 @@ fun getRequestParameters() : HashMap<String, String> {
     map.put("ts", timeInMillis)
     map.put("apikey", MARVEL_PUBLIC_KEY)
     map.put("hash", md5HashString)
-    map.put("limit", "100");
-
     return map
 }

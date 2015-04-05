@@ -17,18 +17,19 @@ import java.util.ArrayList
 
 public class MainActivity : Activity(), PageLoader{
 
-    val mCharacterAdapter = CharacterAdapter(ArrayList<Character>())
+    val mLoadingItem = LoadingItem()
+    val mCharacterAdapter = CharacterAdapter(ArrayList<Displayable>())
 
     val listener = object : retrofit.Callback<Result> {
         override fun success(t: Result?, response: Response?) {
+            mCharacterAdapter.getList().remove(mLoadingItem)
             mCharacterAdapter.getList().addAll(t?.data?.results!!)
             mCharacterAdapter.notifyDataSetChanged()
-            progressBar.setVisibility(View.GONE)
         }
 
         override fun failure(error: RetrofitError?) {
-            //TODO
-            progressBar.setVisibility(View.GONE)
+            mCharacterAdapter.getList().remove(mLoadingItem)
+            mCharacterAdapter.notifyDataSetChanged()
         }
     }
 
@@ -39,34 +40,17 @@ public class MainActivity : Activity(), PageLoader{
         recyclerview.setLayoutManager(LinearLayoutManager(this))
         recyclerview.setAdapter(mCharacterAdapter)
         recyclerview.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
-        recyclerview.setOnScrollListener(ScrollListener(this))
+        recyclerview.setOnScrollListener(ScrollListener(this, mLoadingItem))
 
         loadPage()
     }
 
     override fun loadPage() {
-        val characterFetcher = CharacterFetcher()
+        mCharacterAdapter.getList().add(mLoadingItem)
+        mCharacterAdapter.notifyDataSetChanged()
 
+        val characterFetcher = CharacterFetcher()
         characterFetcher.fetchAllCharacters(mCharacterAdapter.getItemCount().toString(), listener)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        val id = item!!.getItemId()
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true
-        }
-
-        return super<Activity>.onOptionsItemSelected(item)
-    }
 }

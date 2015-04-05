@@ -6,9 +6,10 @@ import android.support.v7.widget.RecyclerView
 /**
  * Created by willim94 on 05/04/2015.
  */
-public class ScrollListener(pageLoader: PageLoader) : RecyclerView.OnScrollListener() {
+public class ScrollListener(pageLoader: PageLoader, loadingItem: LoadingItem) : RecyclerView.OnScrollListener() {
 
     var mPageLoader = pageLoader
+    var mLoadingItem = loadingItem
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 
@@ -19,7 +20,10 @@ public class ScrollListener(pageLoader: PageLoader) : RecyclerView.OnScrollListe
         val firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition()
 
         if ( (firstVisibleItem + visibleItemCount > (totalItemCount - 4)) && totalItemCount != 0 ) {
-            mPageLoader.loadPage()
+            val adapter = recyclerView.getAdapter() as CharacterAdapter
+            if (!adapter.getList().contains(mLoadingItem)) {
+                mPageLoader.loadPage()
+            }
         }
     }
 }
