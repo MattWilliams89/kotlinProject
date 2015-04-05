@@ -1,13 +1,12 @@
-package org.maw.kotlinproject
+package org.maw.kotlinproject.Android
 
+import android.R
 import android.content.Context
-import android.content.res.TypedArray
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
 
 public class DividerItemDecoration(context: Context, orientation: Int) : RecyclerView.ItemDecoration() {
 
@@ -77,7 +76,7 @@ public class DividerItemDecoration(context: Context, orientation: Int) : Recycle
 
     companion object {
 
-        private val ATTRS = intArray(android.R.attr.listDivider)
+        private val ATTRS = intArray(R.attr.listDivider)
 
         public val HORIZONTAL_LIST: Int = LinearLayoutManager.HORIZONTAL
 

@@ -1,7 +1,9 @@
-package org.maw.kotlinproject
+package org.maw.kotlinproject.Android
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import org.maw.kotlinproject.Models.LoadingItem
+import org.maw.kotlinproject.Android.PageLoader
 
 /**
  * Created by willim94 on 05/04/2015.

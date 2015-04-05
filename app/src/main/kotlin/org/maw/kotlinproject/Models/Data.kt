@@ -1,6 +1,4 @@
-package org.maw.kotlinproject
-
-import java.util.ArrayList
+package org.maw.kotlinproject.Models
 
 /**
  * Created by willim94 on 05/04/2015.

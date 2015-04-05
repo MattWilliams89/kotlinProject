@@ -1,6 +1,8 @@
-package org.maw.kotlinproject
+package org.maw.kotlinproject.RestAdapters
 
-
+import org.maw.kotlinproject.BASE_URL
+import org.maw.kotlinproject.Models.Result
+import org.maw.kotlinproject.getRequestParameters
 import retrofit.Callback
 import retrofit.RestAdapter
 import retrofit.http.GET

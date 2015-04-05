@@ -1,26 +1,22 @@
-package org.maw.kotlinproject
+package org.maw.kotlinproject.Android
 
 import android.app.Activity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import kotlinx.android.synthetic.activity_main.*
-import org.apache.commons.codec.binary.Hex
-import org.apache.commons.codec.digest.DigestUtils
+import org.maw.kotlinproject.*
+import org.maw.kotlinproject.Models.LoadingItem
+import org.maw.kotlinproject.Models.Result
+import org.maw.kotlinproject.RestAdapters.CharacterFetcher
 import retrofit.Callback
 import retrofit.RetrofitError
 import retrofit.client.Response
-import java.util.ArrayList
 
-
-public class MainActivity : Activity(), PageLoader{
+public class MainActivity : Activity(), PageLoader {
 
     val mLoadingItem = LoadingItem()
     val mCharacterAdapter = CharacterAdapter(ArrayList<Displayable>())
 
-    val listener = object : retrofit.Callback<Result> {
+    val listener = object : Callback<Result> {
         override fun success(t: Result?, response: Response?) {
             mCharacterAdapter.getList().remove(mLoadingItem)
             mCharacterAdapter.getList().addAll(t?.data?.results!!)

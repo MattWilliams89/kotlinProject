@@ -1,4 +1,4 @@
-package org.maw.kotlinproject
+package org.maw.kotlinproject.Android
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -6,6 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import org.maw.kotlinproject.Models.Displayable
+import org.maw.kotlinproject.Models.LoadingItem
+import org.maw.kotlinproject.Models.Character
+import org.maw.kotlinproject.R
 
 public class CharacterAdapter(characterList :MutableList<Displayable>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
