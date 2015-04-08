@@ -20,4 +20,15 @@ public class MainActivity : Activity() {
         super<Activity>.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
+
+    fun getContainer() : SinglePaneContainer {
+        return singlePaneContainer
+    }
+
+    override fun onBackPressed() {
+        val handled = singlePaneContainer.onBackPressed()
+        if (!handled) {
+            finish()
+        }
+    }
 }

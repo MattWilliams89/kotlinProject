@@ -47,7 +47,10 @@ public class CharacterAdapter(characterList :MutableList<Displayable>) : Recycle
             val character = mCharacterList.get(index) as Character
             characterHolder.nameView.setText(character.name)
             characterHolder.descriptionView.setText(character.description)
-            characterHolder.selectableView.setOnClickListener {  }
+            characterHolder.selectableView.setOnClickListener{
+                val mainActivity = characterHolder.selectableView.getContext() as MainActivity
+                mainActivity.getContainer().showItem(mCharacterList.get(index) as Character)
+            }
         }
         else if (holder is LoadingHolder){
             val loadingHolder = holder
