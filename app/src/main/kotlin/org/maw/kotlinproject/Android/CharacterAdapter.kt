@@ -55,15 +55,19 @@ public class CharacterAdapter(characterList :MutableList<Displayable>) : Recycle
         if (holder is CharacterHolder) {
             val characterHolder = holder
             val character = mCharacterList.get(index) as Character
+
             characterHolder.nameView.setText(character.name)
+            characterHolder.nameView.setTransitionName("name" + getItemId(index).toString())
+
             characterHolder.descriptionView.setText(character.description)
+            characterHolder.descriptionView.setTransitionName("desc" + getItemId(index).toString())
 
             Picasso.with(characterHolder.selectableView.getContext()).load(character.getThumbnailURL()).into(characterHolder.imageView)
             characterHolder.imageView.setTransitionName("image" + getItemId(index).toString())
 
             characterHolder.selectableView.setOnClickListener{
                 val mainActivity = characterHolder.selectableView.getContext() as MainActivity
-                mainActivity.getContainer().showItem(mCharacterList.get(index) as Character, characterHolder.imageView)
+                mainActivity.getContainer().showItem(mCharacterList.get(index) as Character, characterHolder.imageView.getTransitionName(), characterHolder.nameView.getTransitionName(), characterHolder.descriptionView.getTransitionName() )
             }
         }
         else if (holder is LoadingHolder){
