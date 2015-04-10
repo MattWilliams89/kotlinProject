@@ -6,4 +6,5 @@ public class Character : Displayable {
     var id : Int = 0
     var name: String = ""
     var description: String = ""
+    var thumbnail: Thumbnail?= null
 }
