@@ -4,9 +4,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import com.squareup.picasso.Picasso
 import org.maw.kotlinproject.Models.Displayable
 import org.maw.kotlinproject.Models.LoadingItem
 import org.maw.kotlinproject.Models.Character
@@ -18,6 +20,10 @@ public class CharacterAdapter(characterList :MutableList<Displayable>) : Recycle
     val mCharacterList = characterList
     var TYPE_LOADING = 0
     var TYPE_CHARACTER = 1
+
+    init {
+        setHasStableIds(true)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup?, itemType: Int): RecyclerView.ViewHolder? {
         if ( itemType == TYPE_LOADING ){
@@ -41,15 +47,23 @@ public class CharacterAdapter(characterList :MutableList<Displayable>) : Recycle
         return TYPE_CHARACTER
     }
 
+    override fun getItemId(position: Int) : Long {
+        return mCharacterList.get(position).getID()
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, index: Int) {
         if (holder is CharacterHolder) {
             val characterHolder = holder
             val character = mCharacterList.get(index) as Character
             characterHolder.nameView.setText(character.name)
             characterHolder.descriptionView.setText(character.description)
+
+            Picasso.with(characterHolder.selectableView.getContext()).load(character.getThumbnailURL()).into(characterHolder.imageView)
+            characterHolder.imageView.setTransitionName("image" + getItemId(index).toString())
+
             characterHolder.selectableView.setOnClickListener{
                 val mainActivity = characterHolder.selectableView.getContext() as MainActivity
-                mainActivity.getContainer().showItem(mCharacterList.get(index) as Character)
+                mainActivity.getContainer().showItem(mCharacterList.get(index) as Character, characterHolder.imageView)
             }
         }
         else if (holder is LoadingHolder){
@@ -65,6 +79,7 @@ public class CharacterAdapter(characterList :MutableList<Displayable>) : Recycle
     class CharacterHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameView : TextView by bindView(R.id.char_name)
         val descriptionView : TextView by bindView(R.id.char_description)
+        val imageView : ImageView by bindView(R.id.char_image)
         val selectableView : LinearLayout by bindView(R.id.character_item_view)
     }
 
