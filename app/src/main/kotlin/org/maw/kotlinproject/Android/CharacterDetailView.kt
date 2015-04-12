@@ -20,6 +20,10 @@ import org.maw.kotlinproject.kotterknife.bindView
  */
 public class CharacterDetailView : ScrollView {
 
+    val nameView : TextView by bindView(R.id.char_name)
+    val descriptionView : TextView by bindView(R.id.char_description)
+    val charImage : ImageView by bindView(R.id.char_image)
+
     public constructor(context: Context) : super(context) {
     }
 
@@ -32,29 +36,14 @@ public class CharacterDetailView : ScrollView {
     public constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
     }
 
-    fun launch(character: Character, imageTransitionName: String, nameTransitionName: String, descTransitionName: String, container: ViewGroup) {
-        val c = getContext() as MainActivity
-        val view = c.getLayoutInflater().inflate(R.layout.character_details, container, false)
-        val nameView = view.findViewById(R.id.char_name) as TextView
-        val descriptionView = view.findViewById(R.id.char_description) as TextView
-        val charImage = view.findViewById(R.id.char_image) as ImageView
-
+    fun setupView(character: Character, imageTransitionName: String, nameTransitionName: String, descTransitionName: String) {
         charImage.setTransitionName(imageTransitionName)
         nameView.setTransitionName(nameTransitionName)
         descriptionView.setTransitionName(descTransitionName)
 
-        val shared = TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move)
-        shared.addTarget(imageTransitionName).addTarget(nameTransitionName).addTarget(descTransitionName)
-        shared.setDuration(500)
-        val set = TransitionSet()
-        set.addTransition(shared)
-        val scene = Scene(container, view)
-
         nameView.setText(character.name)
         descriptionView.setText(character.description)
         Picasso.with(getContext()).load(character.getThumbnailURL()).into(charImage);
-
-        TransitionManager.go(scene, set)
     }
 
 }

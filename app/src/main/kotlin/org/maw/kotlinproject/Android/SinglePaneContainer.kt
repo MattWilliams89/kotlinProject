@@ -15,6 +15,8 @@ import org.maw.kotlinproject.Models.Character
 import org.maw.kotlinproject.R
 
 public class SinglePaneContainer(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), Container {
+    private var container: ViewGroup? = null
+    private var detailView: CharacterDetailView? = null
     private var recyclerView: CharacterRecyclerView? = null
     private var mImageTransitionName : String? = null
     private var mNameTransitionName : String? = null
@@ -22,28 +24,36 @@ public class SinglePaneContainer(context: Context, attrs: AttributeSet) : FrameL
 
     override fun onFinishInflate() {
         super<FrameLayout>.onFinishInflate()
+        container = findViewById(R.id.singlePaneContainer) as ViewGroup
         recyclerView = getChildAt(0) as CharacterRecyclerView
+        detailView = (getContext() as MainActivity).getLayoutInflater().inflate(R.layout.detail_view, container, false) as CharacterDetailView
     }
 
     override public fun onBackPressed(): Boolean {
         if (!listViewAttached()) {
-            val shared = TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move)
-            shared.addTarget(mImageTransitionName).addTarget(mNameTransitionName).addTarget(mDescTransitionName)
-            shared.setDuration(500)
-            val set = TransitionSet()
-            set.addTransition(shared)
-            val scene = Scene(findViewById(R.id.singlePaneContainer) as ViewGroup, recyclerView)
-            TransitionManager.go(scene, set)
+            animateSceneTransition(recyclerView!!)
             return true
         }
         return false
+    }
+
+    private fun animateSceneTransition(transitionTarget: View) {
+        val shared = TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move)
+        shared.addTarget(mImageTransitionName).addTarget(mNameTransitionName).addTarget(mDescTransitionName)
+        shared.setDuration(500)
+        val set = TransitionSet()
+        set.addTransition(shared)
+        val scene = Scene(container, transitionTarget)
+        TransitionManager.go(scene, set)
     }
 
     override public fun showItem(character: Character, imageTransitionName: String, nameTransitionName: String, descTransitionName: String) {
         mNameTransitionName = nameTransitionName
         mImageTransitionName = imageTransitionName
         mDescTransitionName = descTransitionName
-        CharacterDetailView(getContext()).launch(character, imageTransitionName, nameTransitionName, descTransitionName, findViewById(R.id.singlePaneContainer) as ViewGroup)
+
+        detailView!!.setupView(character, imageTransitionName, nameTransitionName, descTransitionName)
+        animateSceneTransition(detailView!!)
     }
 
     private fun listViewAttached(): Boolean {
