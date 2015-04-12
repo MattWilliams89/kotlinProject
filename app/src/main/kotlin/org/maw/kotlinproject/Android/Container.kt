@@ -1,7 +1,6 @@
 
 package org.maw.kotlinproject.Android
 
-import android.widget.ImageView
 import org.maw.kotlinproject.Models.Character
 
 public trait Container {

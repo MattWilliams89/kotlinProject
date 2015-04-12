@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import org.maw.kotlinproject.Models.Displayable
 import org.maw.kotlinproject.Models.LoadingItem
 import org.maw.kotlinproject.Models.Result

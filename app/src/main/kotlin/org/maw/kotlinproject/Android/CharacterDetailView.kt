@@ -1,18 +1,13 @@
 package org.maw.kotlinproject.Android
 
 import android.content.Context
-import android.transition.*
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
-import org.maw.kotlinproject.R
 import org.maw.kotlinproject.Models.Character
+import org.maw.kotlinproject.R
 import org.maw.kotlinproject.kotterknife.bindView
 
 /**

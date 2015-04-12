@@ -3,11 +3,11 @@ package org.maw.kotlinproject.kotterknife
 import android.app.Activity
 import android.app.Dialog
 import android.app.Fragment
-import android.support.v4.app.Fragment as SupportFragment
 import android.support.v7.widget.RecyclerView.ViewHolder
 import android.view.View
 import android.view.ViewGroup
 import kotlin.properties.ReadOnlyProperty
+import android.support.v4.app.Fragment as SupportFragment
 
 public fun <T : View> ViewGroup.bindView(id: Int): ReadOnlyProperty<Any, T> = ViewBinding(id)
 public fun <T : View> Activity.bindView(id: Int): ReadOnlyProperty<Any, T> = ViewBinding(id)

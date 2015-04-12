@@ -9,9 +9,9 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.squareup.picasso.Picasso
+import org.maw.kotlinproject.Models.Character
 import org.maw.kotlinproject.Models.Displayable
 import org.maw.kotlinproject.Models.LoadingItem
-import org.maw.kotlinproject.Models.Character
 import org.maw.kotlinproject.R
 import org.maw.kotlinproject.kotterknife.bindView
 

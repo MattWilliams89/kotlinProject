@@ -7,12 +7,10 @@ import android.transition.TransitionManager
 import android.transition.TransitionSet
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ImageView
 import org.maw.kotlinproject.Models.Character
-
 import org.maw.kotlinproject.R
+
 
 public class SinglePaneContainer(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), Container {
     private var detailView: CharacterDetailView? = null
