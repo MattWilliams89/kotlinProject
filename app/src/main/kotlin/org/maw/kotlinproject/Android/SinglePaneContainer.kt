@@ -15,7 +15,6 @@ import org.maw.kotlinproject.Models.Character
 import org.maw.kotlinproject.R
 
 public class SinglePaneContainer(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), Container {
-    private var container: ViewGroup? = null
     private var detailView: CharacterDetailView? = null
     private var recyclerView: CharacterRecyclerView? = null
     private var mImageTransitionName : String? = null
@@ -24,9 +23,8 @@ public class SinglePaneContainer(context: Context, attrs: AttributeSet) : FrameL
 
     override fun onFinishInflate() {
         super<FrameLayout>.onFinishInflate()
-        container = findViewById(R.id.singlePaneContainer) as ViewGroup
         recyclerView = getChildAt(0) as CharacterRecyclerView
-        detailView = (getContext() as MainActivity).getLayoutInflater().inflate(R.layout.detail_view, container, false) as CharacterDetailView
+        detailView = (getContext() as MainActivity).getLayoutInflater().inflate(R.layout.detail_view, this, false) as CharacterDetailView
     }
 
     override public fun onBackPressed(): Boolean {
@@ -43,7 +41,7 @@ public class SinglePaneContainer(context: Context, attrs: AttributeSet) : FrameL
         shared.setDuration(500)
         val set = TransitionSet()
         set.addTransition(shared)
-        val scene = Scene(container, transitionTarget)
+        val scene = Scene(this, transitionTarget)
         TransitionManager.go(scene, set)
     }
 
