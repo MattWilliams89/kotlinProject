@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import org.maw.kotlinproject.R
@@ -17,7 +18,7 @@ import org.maw.kotlinproject.kotterknife.bindView
 /**
  * Created by willim94 on 08/04/2015.
  */
-public class CharacterDetailView : LinearLayout {
+public class CharacterDetailView : ScrollView {
 
     public constructor(context: Context) : super(context) {
     }
@@ -31,28 +32,27 @@ public class CharacterDetailView : LinearLayout {
     public constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
     }
 
-    fun launch(character: Character, transitionName: String, container: ViewGroup) {
+    fun launch(character: Character, imageTransitionName: String, nameTransitionName: String, descTransitionName: String, container: ViewGroup) {
         val c = getContext() as MainActivity
         val view = c.getLayoutInflater().inflate(R.layout.character_details, container, false)
-
-        val shared = TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move)
-        shared.addTarget(transitionName)
-        shared.setDuration(1000)
-        val fade = TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade);
-        fade.excludeTarget(transitionName, true);
-        fade.setDuration(1000);
-        val set = TransitionSet()
-        set.addTransition(shared).addTransition(fade)
-        val scene = Scene(container, view)
-
         val nameView = view.findViewById(R.id.char_name) as TextView
         val descriptionView = view.findViewById(R.id.char_description) as TextView
         val charImage = view.findViewById(R.id.char_image) as ImageView
 
+        charImage.setTransitionName(imageTransitionName)
+        nameView.setTransitionName(nameTransitionName)
+        descriptionView.setTransitionName(descTransitionName)
+
+        val shared = TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move)
+        shared.addTarget(imageTransitionName).addTarget(nameTransitionName).addTarget(descTransitionName)
+        shared.setDuration(500)
+        val set = TransitionSet()
+        set.addTransition(shared)
+        val scene = Scene(container, view)
+
         nameView.setText(character.name)
         descriptionView.setText(character.description)
         Picasso.with(getContext()).load(character.getThumbnailURL()).into(charImage);
-        charImage.setTransitionName(transitionName)
 
         TransitionManager.go(scene, set)
     }

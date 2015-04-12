@@ -16,6 +16,9 @@ import org.maw.kotlinproject.R
 
 public class SinglePaneContainer(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), Container {
     private var recyclerView: CharacterRecyclerView? = null
+    private var mImageTransitionName : String? = null
+    private var mNameTransitionName : String? = null
+    private var mDescTransitionName : String? = null
 
     override fun onFinishInflate() {
         super<FrameLayout>.onFinishInflate()
@@ -24,18 +27,23 @@ public class SinglePaneContainer(context: Context, attrs: AttributeSet) : FrameL
 
     override public fun onBackPressed(): Boolean {
         if (!listViewAttached()) {
-            removeViewAt(0)
-            addView(recyclerView!!)
+            val shared = TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move)
+            shared.addTarget(mImageTransitionName).addTarget(mNameTransitionName).addTarget(mDescTransitionName)
+            shared.setDuration(500)
+            val set = TransitionSet()
+            set.addTransition(shared)
+            val scene = Scene(findViewById(R.id.singlePaneContainer) as ViewGroup, recyclerView)
+            TransitionManager.go(scene, set)
             return true
         }
         return false
     }
 
-    override public fun showItem(character: Character, imageView: ImageView) {
-        if (listViewAttached()) {
-            removeViewAt(0)
-        }
-        CharacterDetailView(getContext()).launch(character, imageView.getTransitionName(), this)
+    override public fun showItem(character: Character, imageTransitionName: String, nameTransitionName: String, descTransitionName: String) {
+        mNameTransitionName = nameTransitionName
+        mImageTransitionName = imageTransitionName
+        mDescTransitionName = descTransitionName
+        CharacterDetailView(getContext()).launch(character, imageTransitionName, nameTransitionName, descTransitionName, findViewById(R.id.singlePaneContainer) as ViewGroup)
     }
 
     private fun listViewAttached(): Boolean {
