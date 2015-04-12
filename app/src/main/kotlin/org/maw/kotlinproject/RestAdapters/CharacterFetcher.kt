@@ -18,13 +18,11 @@ public class CharacterFetcher {
     public fun fetchAllCharacters(currentCount: String, listener: Callback<Result>) {
         val restAdapter = RestAdapter.Builder().setEndpoint(BASE_URL).build()
 
-        // Create an instance of our GitHub API interface.
         val characterFetcher = restAdapter.create<CharacterList>(javaClass<CharacterList>())
 
         val parameters = getRequestParameters();
         parameters.put("offset", currentCount)
 
-        // Fetch and print a list of the contributors to this library.
         characterFetcher.characters(parameters, listener)
     }
 }

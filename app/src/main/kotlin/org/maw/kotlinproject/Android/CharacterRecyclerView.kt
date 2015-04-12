@@ -20,7 +20,6 @@ public class CharacterRecyclerView : RecyclerView, PageLoader {
     val mLoadingItem = LoadingItem()
     val mCharacterAdapter = CharacterAdapter(ArrayList<Displayable>())
 
-
     public constructor(context: Context) : super(context) {
     }
 
