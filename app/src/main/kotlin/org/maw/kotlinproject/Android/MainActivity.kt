@@ -17,8 +17,7 @@ public class MainActivity : Activity() {
     }
 
     override fun onBackPressed() {
-        val handled = singlePaneContainer.onBackPressed()
-        if (!handled) {
+        if (!singlePaneContainer.onBackPressed()) {
             finish()
         }
     }
